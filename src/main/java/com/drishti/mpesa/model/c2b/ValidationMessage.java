@@ -27,4 +27,8 @@ public class ValidationMessage {
     private String msisdn;
     @JsonProperty(value = "FirstName")
     private String firstName;
+    @JsonProperty(value = "MiddleName")
+    private String middleName;
+    @JsonProperty(value = "LastName")
+    private String lastName;
 }
