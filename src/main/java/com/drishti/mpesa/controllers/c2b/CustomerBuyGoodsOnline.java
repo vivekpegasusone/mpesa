@@ -5,6 +5,8 @@ import com.drishti.mpesa.model.c2b.ValidationMessage;
 import com.drishti.mpesa.model.c2b.ValidationResponse;
 import com.drishti.mpesa.services.c2b.TransactionConfirmationService;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,6 +17,8 @@ import java.text.ParseException;
 @RestController
 @RequestMapping("c2b")
 public class CustomerBuyGoodsOnline {
+
+    private static final Logger log = LoggerFactory.getLogger(CustomerBuyGoodsOnline.class);
 
     @Autowired
     private TransactionConfirmationService transConfService;
@@ -32,10 +36,8 @@ public class CustomerBuyGoodsOnline {
     @PostMapping(path = "confirmation", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
     public void confirmation(@RequestBody ValidationMessage message) throws JsonProcessingException, ParseException {
-        System.out.println("***************************");
-        System.out.println(message);
+        log.info("Received validation message : " + message);
         TransactionConfirmation confirmation =  transConfService.persist(new TransactionConfirmation(message));
-        System.out.println("Persisted confirmation : " + confirmation);
-        System.out.println("***************************");
+        log.info("Persisted confirmation message: " + confirmation);
     }
 }
